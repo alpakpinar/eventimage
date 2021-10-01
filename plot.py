@@ -57,10 +57,12 @@ class Job():
         # Get the data (jet candidates + event images) with the VBF cuts applied
         masked_data = RootFile(self.infile).get_masked_candidates()
 
+        # Only plot the jets that are matching to a GEN-level jet with dR=0.4
         if self.genJetCleaning:
             cleaner = GenJetCleaner(masked_data['jets'], masked_data['genJets'])
             masked_data['jets'] = cleaner.get_clean_jets()
 
+        # Loop over the events and make an image plot for each
         for ievent in tqdm(range(self.numEvents)):
             for pfType in self.pfTypes:
                 self._make_plot_wrapper(
