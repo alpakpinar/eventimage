@@ -76,6 +76,10 @@ class Plot2DMaker(ColormeshPlotter):
         dataForEvent['jetEta'] = self.data['jets'].eta[ievent]
         dataForEvent['jetPhi'] = self.data['jets'].phi[ievent]
         
+        dataForEvent['nonMatchingJetPt'] = self.data['non_matching_jets'].pt[ievent]
+        dataForEvent['nonMatchingJetEta'] = self.data['non_matching_jets'].eta[ievent]
+        dataForEvent['nonMatchingJetPhi'] = self.data['non_matching_jets'].phi[ievent]
+
         self.tablename = 'eventImage' if not self.jetsOnly else 'jetImage'
 
         dataForEvent[f'{self.tablename}_pixels'] = self.data[f'{self.tablename}_pixels'][ievent]
@@ -127,6 +131,10 @@ class Plot2DMaker(ColormeshPlotter):
 
             ax.annotate(text, loc, xytext=(loc[0], loc[1]+0.5), horizontalalignment='center')
 
+        # Also plot the non-matching jets
+        scatter_opts['color'] = 'red'
+        ax.scatter(dataForEvent['nonMatchingJetEta'], dataForEvent['nonMatchingJetPhi'], **scatter_opts)
+
         # Draw a circle with R=0.4 around each jet
         circle_opts = {
             'fill' : False,
@@ -137,6 +145,11 @@ class Plot2DMaker(ColormeshPlotter):
         } 
 
         for jeteta, jetphi in zip(dataForEvent['jetEta'], dataForEvent['jetPhi']):
+            circle = plt.Circle((jeteta, jetphi), **circle_opts)
+            ax.add_patch(circle)
+
+        circle_opts['color'] = 'red'
+        for jeteta, jetphi in zip(dataForEvent['nonMatchingJetEta'], dataForEvent['nonMatchingJetPhi']):
             circle = plt.Circle((jeteta, jetphi), **circle_opts)
             ax.add_patch(circle)
 

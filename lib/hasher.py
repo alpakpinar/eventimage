@@ -18,10 +18,15 @@ class MD5Hasher():
         self.filename = filename
     
     def get_hash(self):
-        cmd = ['md5', self.filename]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, _ = p.communicate()
-
+        try:
+            cmd = ['md5', self.filename]
+            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, _ = p.communicate()
+        except FileNotFoundError:
+            cmd = ['md5sum', self.filename]
+            p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, _ = p.communicate()
+            
         hash = stdout.split()[-1]
         return hash.decode('utf-8')
     

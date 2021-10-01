@@ -43,11 +43,11 @@ class RootFile():
         # 2D eta/phi event images, store dummy four momenta
         self.eventImages = JaggedCandidateArray.candidatesfromcounts(
             df['nEventImage'],
-            pt=df['EventImage_pixels']*0.,
-            eta=df['EventImage_pixels']*0.,
-            phi=df['EventImage_pixels']*0.,
-            mass=df['EventImage_pixels']*0.,
-            pixels=df['EventImage_pixels'],
+            pt=df['EventImage_pixelsAfterPUPPI']*0.,
+            eta=df['EventImage_pixelsAfterPUPPI']*0.,
+            phi=df['EventImage_pixelsAfterPUPPI']*0.,
+            mass=df['EventImage_pixelsAfterPUPPI']*0.,
+            pixels=df['EventImage_pixelsAfterPUPPI'],
             hfHardonicPixels=df['EventImage_HFHadronicPixels'],
             hfEMPixels=df['EventImage_HFEMPixels'],
             chargedHadronPixels=df['EventImage_ChargedHadronPixels'],

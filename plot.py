@@ -61,6 +61,7 @@ class Job():
         if self.genJetCleaning:
             cleaner = GenJetCleaner(masked_data['jets'], masked_data['genJets'])
             masked_data['jets'] = cleaner.get_clean_jets()
+            masked_data['non_matching_jets'] = cleaner.get_nonmatching_jets()
 
         # Loop over the events and make an image plot for each
         for ievent in tqdm(range(self.numEvents)):
