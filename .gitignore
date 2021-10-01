@@ -1,0 +1,7 @@
+*.ipynb
+.vscode/
+output/
+*.root
+*.pdf
+input/
+*.pyc
