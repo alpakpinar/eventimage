@@ -61,7 +61,8 @@ class Plot2DMaker(ColormeshPlotter):
         self.tablename = "JetImage" if self.jetsOnly else "EventImage"
 
         self.dataset_tags = {
-            'EWKZ2Jets.*ZToNuNu' : r'EWK $Z(\nu\nu)$',
+            'Z(\d)JetsToNuNu.*Pt.*FXFX.*' : r'QCD $Z(\nu\nu)$',
+            'EWKZ2Jets.*ZToNuNu.*' : r'EWK $Z(\nu\nu)$',
             'VBF_HToInv.*M125.*' : r'VBF $H(inv)$',
         }
 

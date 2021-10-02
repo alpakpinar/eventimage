@@ -65,12 +65,18 @@ class Job():
 
         # Loop over the events and make an image plot for each
         for ievent in tqdm(range(self.numEvents)):
-            for pfType in self.pfTypes:
-                self._make_plot_wrapper(
-                    masked_data, 
-                    ievent=ievent, 
-                    pfType=pfType, 
-                    )
+            try:
+                for pfType in self.pfTypes:
+                    self._make_plot_wrapper(
+                        masked_data, 
+                        ievent=ievent, 
+                        pfType=pfType, 
+                        )
+            
+            except IndexError:
+                print('At the end of file: Finishing job.')
+                print(f'Processed {ievent} events.')
+                break
 
 def parse_cli():
     parser = argparse.ArgumentParser()
