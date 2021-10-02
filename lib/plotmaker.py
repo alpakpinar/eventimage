@@ -21,7 +21,7 @@ class ColormeshPlotter():
         etaBins = np.linspace(-5,5,etaSize)
         phiBins = np.linspace(-np.pi,np.pi,phiSize)
 
-        cmap = ax.pcolormesh(etaBins, phiBins, pixels.T, norm=colors.LogNorm(vmin=1e-2, vmax=1e3))
+        cmap = ax.pcolormesh(etaBins, phiBins, pixels.T, norm=colors.LogNorm(vmin=1e-1, vmax=1e3))
         ax.set_xlabel(r'PF Candidate $\eta$')
         ax.set_ylabel(r'PF Candidate $\phi$')
 
@@ -123,7 +123,12 @@ class Plot2DMaker(ColormeshPlotter):
             'linewidth' : 2,
         }
     
-        ax.scatter(dataForEvent['jetEta'], dataForEvent['jetPhi'], **scatter_opts)
+        ax.scatter(
+            dataForEvent['jetEta'], 
+            dataForEvent['jetPhi'], 
+            label='GEN-matched jets',
+            **scatter_opts
+            )
 
         for iJet in range(len(dataForEvent['jetEta'])):
             loc = (dataForEvent['jetEta'][iJet], dataForEvent['jetPhi'][iJet])
@@ -133,7 +138,14 @@ class Plot2DMaker(ColormeshPlotter):
 
         # Also plot the non-matching jets
         scatter_opts['color'] = 'red'
-        ax.scatter(dataForEvent['nonMatchingJetEta'], dataForEvent['nonMatchingJetPhi'], **scatter_opts)
+        ax.scatter(
+            dataForEvent['nonMatchingJetEta'], 
+            dataForEvent['nonMatchingJetPhi'], 
+            label='Unmatched jets',
+            **scatter_opts
+            )
+
+        ax.legend()
 
         # Draw a circle with R=0.4 around each jet
         circle_opts = {
