@@ -135,7 +135,12 @@ class Plot2DMaker(ColormeshPlotter):
             loc = (dataForEvent['jetEta'][iJet], dataForEvent['jetPhi'][iJet])
             text = f'$p_T = {dataForEvent["jetPt"][iJet]:.2f} \\ GeV$'
 
-            ax.annotate(text, loc, xytext=(loc[0], loc[1]+0.5), horizontalalignment='center')
+            if loc[1] > 0:
+                xytext = (loc[0], loc[1]-0.5)
+            else:
+                xytext = (loc[0], loc[1]+0.5)
+
+            ax.annotate(text, loc, xytext=xytext, horizontalalignment='center')
 
         # Also plot the non-matching jets
         scatter_opts['color'] = 'red'
