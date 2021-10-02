@@ -76,6 +76,7 @@ def parse_cli():
     parser = argparse.ArgumentParser()
     parser.add_argument('inpath', help='Path to the input ROOT file.')
     parser.add_argument('--tag', help='The output tag.', default=f'{datetime.now().strftime("%Y-%m-%d")}_run')
+    parser.add_argument('--numEvents', help='The number of events to run on.', type=int, default=5)
     parser.add_argument('--jetsOnly', action='store_true', help='Plot jet based images.')
     args = parser.parse_args()
     return args
@@ -97,7 +98,7 @@ def main():
         infile=args.inpath,
         tag=args.tag,
         pfTypes=PFTYPES,
-        numEvents=5,
+        numEvents=args.numEvents,
         jetsOnly=args.jetsOnly
     )
 
