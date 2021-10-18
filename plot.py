@@ -33,6 +33,7 @@ class Job():
             self.pfTypes = ["all"]
 
         self.datasetName = self._extract_dataset_name()
+        self.tagName = self._extract_tag_name()
 
     def _extract_dataset_name(self):
         '''Get the dataset name from the input file name.'''
@@ -40,9 +41,13 @@ class Job():
         temp = basename.replace('.root','').split('_')
         return '_'.join(temp[1:])
 
+    def _extract_tag_name(self):
+        '''Get the tag name (to rename output dir).'''
+        return ''.join(self.infile.split('/')[-2])
+
     def _make_plot_wrapper(self, masked_data, ievent, pfType):
         plotMaker = Plot2DMaker(masked_data, 
-            tag=self.tag, 
+            tag=self.tagName, 
             pfType=pfType, 
             jetsOnly=self.jetsOnly,
             datasetName=self.datasetName
@@ -64,19 +69,13 @@ class Job():
             masked_data['non_matching_jets'] = cleaner.get_nonmatching_jets()
 
         # Loop over the events and make an image plot for each
-        for ievent in tqdm(range(self.numEvents)):
-            try:
-                for pfType in self.pfTypes:
-                    self._make_plot_wrapper(
-                        masked_data, 
-                        ievent=ievent, 
-                        pfType=pfType, 
-                        )
-            
-            except IndexError:
-                print('At the end of file: Finishing job.')
-                print(f'Processed {ievent} events.')
-                break
+        for ievent in tqdm(range(min(self.numEvents, len(masked_data['jets'])))):
+            for pfType in self.pfTypes:
+                self._make_plot_wrapper(
+                    masked_data, 
+                    ievent=ievent, 
+                    pfType=pfType, 
+                    )
 
 def parse_cli():
     parser = argparse.ArgumentParser()
@@ -84,6 +83,7 @@ def parse_cli():
     parser.add_argument('--tag', help='The output tag.', default=f'{datetime.now().strftime("%Y-%m-%d")}_run')
     parser.add_argument('--numEvents', help='The number of events to run on.', type=int, default=5)
     parser.add_argument('--jetsOnly', action='store_true', help='Plot jet based images.')
+    parser.add_argument('--numEvents', type=int, default=5, help='Number of events to plot.')
     args = parser.parse_args()
     return args
 
