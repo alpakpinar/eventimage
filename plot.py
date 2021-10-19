@@ -83,7 +83,6 @@ def parse_cli():
     parser.add_argument('--tag', help='The output tag.', default=f'{datetime.now().strftime("%Y-%m-%d")}_run')
     parser.add_argument('--numEvents', help='The number of events to run on.', type=int, default=5)
     parser.add_argument('--jetsOnly', action='store_true', help='Plot jet based images.')
-    parser.add_argument('--numEvents', type=int, default=5, help='Number of events to plot.')
     args = parser.parse_args()
     return args
 
